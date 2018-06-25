@@ -19,8 +19,7 @@ def main():
         # Generate synthetic data.
         data, lags, N = dataLags(std[_])
 
-        # Obtain integrated autocorrelation time with these methods. Store
-        # the effective sample size.
+        # Obtain integrated autocorrelation time with all methods.
         iat0 = iat_emcee(data)
         ess_all[0].append(iat0)
         print("emcee: {:.2f}".format(iat0))
@@ -36,7 +35,7 @@ def main():
         iat4 = iat_AR(data, lags)
         ess_all[4].append(iat4)
         print("AR(p): {:.2f}".format(iat4))
-
+        # For this method, divide by the sample size to obtain the IAT.
         mESS = multiESS(data.reshape(N, 1))
         ess_all[5].append(float(N) / mESS)
         print("mESS: {:.2f}".format(float(N) / mESS))
